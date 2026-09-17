@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Praktikum Multimedia - Modul 2</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f9f9f9;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        h2 {
+            color: #2c3e50;
+            border-bottom: 2px solid #2c3e50;
+            padding-bottom: 5px;
+        }
+        section {
+            background-color: #fff;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        audio, video, iframe {
+            display: block;
+            margin: 10px auto;
+            max-width: 100%;
+        }
+        #div1, #div2 {
+            float: left;
+            width: 120px;
+            height: 120px;
+            margin: 10px;
+            padding: 10px;
+            border: 2px dashed #999;
+            background-color: #eef;
+            border-radius: 8px;
+            text-align: center;
+        }
+        #drag1 {
+            cursor: move;
+            display: block;
+            margin: 0 auto;
+        }
+        button {
+            padding: 8px 16px;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #2980b9;
+        }
+        footer {
+            text-align: center;
+            margin-top: 30px;
+            color: #777;
+            font-size: 0.9em;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Praktikum Multimedia - Modul 2</h1>
+    <p style="text-align:center;">HTML Audio, Video, YouTube, Geolocation API, dan Drag &amp; Drop API</p>
+
+    <!-- ================= AUDIO ================= -->
+    <section>
+        <h2>1. Audio HTML5</h2>
+        <p>Contoh elemen <code>&lt;audio&gt;</code> dengan beberapa sumber format:</p>
+        <audio controls>
+            <source src="https://www.w3schools.com/html/horse.ogg" type="audio/ogg">
+            <source src="https://www.w3schools.com/html/horse.mp3" type="audio/mpeg">
+            Browser Anda tidak mendukung elemen audio.
+        </audio>
+    </section>
+
+    <!-- ================= VIDEO ================= -->
+    <section>
+        <h2>2. Video HTML5</h2>
+        <p>Contoh elemen <code>&lt;video&gt;</code> dengan beberapa sumber format:</p>
+        <video width="400" controls>
+            <source src="https://www.w3schools.com/html/movie.mp4" type="video/mp4">
+            <source src="https://www.w3schools.com/html/movie.ogg" type="video/ogg">
+            Browser Anda tidak mendukung elemen video.
+        </video>
+    </section>
+
+    <!-- ================= YOUTUBE ================= -->
+    <section>
+        <h2>3. YouTube Video</h2>
+        <p>Menampilkan video YouTube menggunakan <code>&lt;iframe&gt;</code>:</p>
+        <iframe width="420" height="315"
+                src="https://www.youtube.com/embed/dQw4w9WgXcQ"
+                frameborder="0" allowfullscreen>
+        </iframe>
+    </section>
+
+    <!-- ================= GEOLOCATION ================= -->
+    <section>
+        <h2>4. Geolocation API</h2>
+        <p>Klik tombol untuk mendapatkan koordinat lokasi Anda:</p>
+        <button onclick="getLocation()">Coba Geolocation</button>
+        <p id="demo"></p>
+    </section>
+
+    <!-- ================= DRAG & DROP ================= -->
+    <section>
+        <h2>5. Drag and Drop API</h2>
+        <p>Geser gambar ke salah satu kotak di bawah ini:</p>
+        <div id="div1" ondrop="drop(event)" ondragover="allowDrop(event)">Kotak 1</div>
+        <div id="div2" ondrop="drop(event)" ondragover="allowDrop(event)">Kotak 2</div>
+        <br><br>
+        <img id="drag1" src="https://via.placeholder.com/100x100?text=Drag+Me"
+             draggable="true" ondragstart="drag(event)" width="100" height="100" alt="Drag Me">
+    </section>
+
+    <footer>
+        <p>Nama:  | NIM: </p>
+    </footer>
+
+    <!-- ================= JAVASCRIPT ================= -->
+    <script>
+        // ---------- Geolocation ----------
+        var x = document.getElementById("demo");
+
+        function getLocation() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(showPosition, showError);
+            } else {
+                x.innerHTML = "Geolocation tidak didukung oleh browser ini.";
+            }
+        }
+
+        function showPosition(position) {
+            x.innerHTML = "Latitude: " + position.coords.latitude +
+                          "<br>Longitude: " + position.coords.longitude;
+        }
+
+        function showError(error) {
+            switch(error.code) {
+                case error.PERMISSION_DENIED:
+                    x.innerHTML = "Pengguna menolak permintaan Geolocation.";
+                    break;
+                case error.POSITION_UNAVAILABLE:
+                    x.innerHTML = "Informasi lokasi tidak tersedia.";
+                    break;
+                case error.TIMEOUT:
+                    x.innerHTML = "Permintaan lokasi timeout.";
+                    break;
+                case error.UNKNOWN_ERROR:
+                    x.innerHTML = "Terjadi kesalahan yang tidak diketahui.";
+                    break;
+            }
+        }
+
+        // ---------- Drag and Drop ----------
+        function allowDrop(ev) {
+            ev.preventDefault();
+        }
+
+        function drag(ev) {
+            ev.dataTransfer.setData("text", ev.target.id);
+        }
+
+        function drop(ev) {
+            ev.preventDefault();
+            var data = ev.dataTransfer.getData("text");
+            ev.target.appendChild(document.getElementById(data));
+        }
+    </script>
+
+</body>
+</html>
